@@ -1,0 +1,54 @@
+npm install exceljs
+
+
+const ExcelJS = require('exceljs');
+const fs = require('fs');
+
+module.exports = async function generateReport(data) {
+  const workbook = new ExcelJS.Workbook();
+
+  const sheet = workbook.addWorksheet('User Report');
+
+  sheet.columns = [
+    { header: 'User Name', key: 'name', width: 25 },
+    { header: 'Email', key: 'email', width: 30 },
+    { header: 'Initial Status', key: 'status', width: 20 },
+    { header: 'Action Taken', key: 'action', width: 20 },
+    { header: 'Result', key: 'result', width: 20 },
+  ];
+
+  // Bold header
+  sheet.getRow(1).font = { bold: true };
+
+  // Add rows
+  data.forEach((row) => sheet.addRow(row));
+
+  // Apply green color to success rows
+  sheet.eachRow((row, rowNumber) => {
+    if (rowNumber === 1) return;
+
+    const resultCell = row.getCell(5).value;
+
+    if (String(resultCell).toUpperCase().includes('SUCCESS')) {
+      row.eachCell((cell) => {
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'C6EFCE' },
+        };
+      });
+    }
+  });
+
+  // Freeze header
+  sheet.views = [{ state: 'frozen', ySplit: 1 }];
+
+  if (!fs.existsSync('./output')) {
+    fs.mkdirSync('./output');
+  }
+
+  const filePath = './output/fe_demo_report.xlsx';
+  await workbook.xlsx.writeFile(filePath);
+
+  console.log(`📄 Report saved to: ${filePath}`);
+};
