@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Jane Doe",
+    "email": "jane.doe@example.com",
+    "hasFEAccess": true
+  },
+  {
+    "name": "John Smith",
+    "email": "john.smith@example.com",
+    "hasFEAccess": false
+  },
+  {
+    "name": "Alex Carter",
+    "email": "alex.carter@example.com",
+    "hasFEAccess": true
+  }
+]
