@@ -1,0 +1,45 @@
+const fs = require('fs');
+const users = require('./sample-data.json');
+const generateReport = require('./report-generator');
+
+console.log('\n🚀 Starting FE Access Removal Demo...\n');
+
+let results = [];
+
+for (const user of users) {
+  console.log(`👤 Processing: ${user.name}`);
+
+  if (!user.hasFEAccess) {
+    console.log(`   ⏭ No access — skipped\n`);
+
+    results.push({
+      name: user.name,
+      email: user.email,
+      status: 'No FE Access',
+      action: 'Skipped',
+      result: 'No Action Required'
+    });
+
+    continue;
+  }
+
+  console.log(`   🔧 Removing FE access...`);
+  
+  // Simulated removal
+  const success = true;
+
+  console.log(`   ✅ Access removed successfully\n`);
+
+  results.push({
+    name: user.name,
+    email: user.email,
+    status: 'Had FE Access',
+    action: 'Removal Attempted',
+    result: success ? 'Success' : 'Failed'
+  });
+}
+
+// Generate report
+generateReport(results);
+
+console.log('\n✅ Demo complete. Report generated in /output folder.\n');
