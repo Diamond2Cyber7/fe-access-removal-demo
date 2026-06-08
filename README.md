@@ -1,3 +1,9 @@
+
+![Node.js](https://img.shields.io/badge/Node.js-18+-green)
+![License](https://img.shields.io/badge/License-MIT-blue)
+![Status](https://img.shields.io/badge/Status-Demo-orange)
+
+
 # FE Access Removal Automation Demo
 
 This project demonstrates a simplified version of an automation tool designed to remove Financial Edge NXT access from users and generate an audit-ready report.
