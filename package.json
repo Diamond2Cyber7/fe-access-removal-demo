@@ -1,0 +1,14 @@
+npm init -y
+
+{
+  "name": "fe-access-removal-demo",
+  "version": "1.0.0",
+  "description": "Demo tool for automating Financial Edge access removal and reporting",
+  "main": "demo.js",
+  "scripts": {
+    "start": "node demo.js"
+  },
+  "dependencies": {
+    "exceljs": "^4.3.0"
+  }
+}
