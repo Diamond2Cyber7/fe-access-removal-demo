@@ -4,28 +4,85 @@
 <title>FE Access Removal Demo 🚀</title>
 
 <style>
-body { background:#121212; color:white; font-family:Arial; }
-.card { background:#1e1e1e; padding:12px; margin:15px 0; border-radius:6px; }
-.success { color:#4CAF50; }
-.skip { color:#FFC107; }
-button { margin:5px; padding:8px 14px; }
-</style>
+body {
+  background:#0f172a;
+  color:white;
+  font-family:Arial;
+  margin:20px;
+}
 
+.header {
+  font-size:26px;
+  font-weight:bold;
+}
+
+.card {
+  background:#1e293b;
+  padding:15px;
+  margin:15px 0;
+  border-radius:8px;
+  box-shadow:0 0 10px rgba(0,0,0,0.3);
+}
+
+button {
+  margin:5px;
+  padding:10px 15px;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+.primary { background:#3b82f6; color:white; }
+.success { color:#22c55e; }
+.skip { color:#facc15; }
+
+.progress-container {
+  width:100%;
+  background:#334155;
+  border-radius:8px;
+  margin-top:10px;
+}
+
+.progress-bar {
+  width:0%;
+  height:20px;
+  background:#22c55e;
+  border-radius:8px;
+  text-align:center;
+  font-size:12px;
+}
+
+.status-badge {
+  padding:4px 8px;
+  border-radius:4px;
+  font-size:12px;
+}
+
+.badge-success { background:#16a34a; }
+.badge-skip { background:#eab308; }
+
+</style>
 </head>
 
 <body>
 
-<h1>🔐 FE Access Removal Automation</h1>
+<div class="header">🔐 FE Access Removal Dashboard</div>
 
 <div class="card">
-<b>Demo Mode:</b> Safely simulate access removal for users
+<b>Environment:</b> Test Environment<br>
+<b>Status:</b> Demo Mode<br>
 </div>
 
-<button onclick="loadData()">📂 Load Demo Data</button>
-<button onclick="runRemoval()">🚀 Run Removal</button>
+<button class="primary" onclick="loadData()">📂 Load Demo Data</button>
+<button class="primary" onclick="runRemoval()">🚀 Run Removal</button>
 <button onclick="exportReport()">📄 Export Report</button>
 
 <p id="status"></p>
+
+<!-- ✅ Progress Bar -->
+<div class="progress-container">
+  <div id="progressBar" class="progress-bar">0%</div>
+</div>
 
 <hr>
 
@@ -47,40 +104,76 @@ function loadData(){
   document.getElementById("status").innerText = "✅ Demo data loaded";
 }
 
+// ✅ Fake progress animation
+function simulateProgress(callback){
+
+  let progress = 0;
+  let bar = document.getElementById("progressBar");
+
+  let interval = setInterval(() => {
+
+    progress += 10;
+    bar.style.width = progress + "%";
+    bar.innerText = progress + "%";
+
+    if(progress >= 100){
+      clearInterval(interval);
+      callback();
+    }
+
+  }, 200);
+}
+
 function runRemoval(){
 
-  let html = "";
+  if(!users.length){
+    alert("Load data first!");
+    return;
+  }
+
+  document.getElementById("results").innerHTML = "";
   report = [];
 
-  users.forEach(user => {
+  simulateProgress(() => {
 
-    html += `<div class="card"><b>${user.name}</b><br>`;
+    let html = "";
 
-    if(!user.hasFE){
-      html += `<div class="skip">⏭ No FE Access — Skipped</div>`;
-      
-      report.push({
-        name:user.name,
-        status:"No FE Access",
-        action:"Skipped",
-        result:"No Action Required"
-      });
-    }
-    else{
-      html += `<div class="success">✅ FE Access Removed</div>`;
+    users.forEach(user => {
 
-      report.push({
-        name:user.name,
-        status:"Had FE Access",
-        action:"Removed",
-        result:"Success"
-      });
-    }
+      html += `<div class="card"><b>${user.name}</b><br>`;
 
-    html += `</div>`;
+      if(!user.hasFE){
+
+        html += `<span class="status-badge badge-skip">No FE Access</span>`;
+        html += `<div class="skip">⏭ Skipped</div>`;
+
+        report.push({
+          name:user.name,
+          status:"No FE Access",
+          action:"Skipped",
+          result:"No Action Required"
+        });
+
+      } else {
+
+        html += `<span class="status-badge badge-success">Had Access</span>`;
+        html += `<div class="success">✅ Access Removed</div>`;
+
+        report.push({
+          name:user.name,
+          status:"Had FE Access",
+          action:"Removed",
+          result:"Success"
+        });
+      }
+
+      html += `</div>`;
+    });
+
+    document.getElementById("results").innerHTML = html;
+    document.getElementById("status").innerText = "✅ Removal process completed";
+
   });
-
-  document.getElementById("results").innerHTML = html;
 }
 
 function exportReport(){
