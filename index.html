@@ -1,94 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>FE Access Removal Demo 🚀</title>
-
-<style>
-body {
-  background:#0f172a;
-  color:white;
-  font-family:Arial;
-  margin:20px;
-}
-
-.header {
-  font-size:26px;
-  font-weight:bold;
-}
-
-.card {
-  background:#1e293b;
-  padding:15px;
-  margin:15px 0;
-  border-radius:8px;
-  box-shadow:0 0 10px rgba(0,0,0,0.3);
-}
-
-button {
-  margin:5px;
-  padding:10px 15px;
-  border:none;
-  border-radius:5px;
-  cursor:pointer;
-}
-
-.primary { background:#3b82f6; color:white; }
-.success { color:#22c55e; }
-.skip { color:#facc15; }
-
-.progress-container {
-  width:100%;
-  background:#334155;
-  border-radius:8px;
-  margin-top:10px;
-}
-
-.progress-bar {
-  width:0%;
-  height:20px;
-  background:#22c55e;
-  border-radius:8px;
-  text-align:center;
-  font-size:12px;
-}
-
-.status-badge {
-  padding:4px 8px;
-  border-radius:4px;
-  font-size:12px;
-}
-
-.badge-success { background:#16a34a; }
-.badge-skip { background:#eab308; }
-
-</style>
-</head>
-
-<body>
-
-<div class="header">🔐 FE Access Removal Dashboard</div>
-
-<div class="card">
-<b>Environment:</b> Test Environment<br>
-<b>Status:</b> Demo Mode<br>
-</div>
-
-<button class="primary" onclick="loadData()">📂 Load Demo Data</button>
-<button class="primary" onclick="runRemoval()">🚀 Run Removal</button>
-<button onclick="exportReport()">📄 Export Report</button>
-
-<p id="status"></p>
-
-<!-- ✅ Progress Bar -->
-<div class="progress-container">
-  <div id="progressBar" class="progress-bar">0%</div>
-</div>
-
-<hr>
-
-<h2>Results</h2>
-<div id="results"></div>
-
 <script>
 
 let users = [];
@@ -104,24 +13,33 @@ function loadData(){
   document.getElementById("status").innerText = "✅ Demo data loaded";
 }
 
-// ✅ Fake progress animation
+// ✅ Improved progress animation
 function simulateProgress(callback){
 
   let progress = 0;
   let bar = document.getElementById("progressBar");
 
+  // Reset bar visually
+  bar.style.width = "0%";
+  bar.innerText = "0%";
+
+  document.getElementById("status").innerText = "⏳ Processing users...";
+
   let interval = setInterval(() => {
 
-    progress += 10;
+    progress += 5; // smoother increment
     bar.style.width = progress + "%";
     bar.innerText = progress + "%";
 
     if(progress >= 100){
       clearInterval(interval);
-      callback();
+
+      setTimeout(() => {  // ✅ small delay so user sees 100%
+        callback();
+      }, 300);
     }
 
-  }, 200);
+  }, 120); // ✅ smoother animation speed
 }
 
 function runRemoval(){
@@ -198,6 +116,3 @@ function exportReport(){
 }
 
 </script>
-
-</body>
-</html>
