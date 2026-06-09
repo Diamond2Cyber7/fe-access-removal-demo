@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>FE Access Removal Demo 🚀</title>
+
+<style>
+body { background:#121212; color:white; font-family:Arial; }
+.card { background:#1e1e1e; padding:12px; margin:15px 0; border-radius:6px; }
+.success { color:#4CAF50; }
+.skip { color:#FFC107; }
+button { margin:5px; padding:8px 14px; }
+</style>
+
+</head>
+
+<body>
+
+<h1>🔐 FE Access Removal Automation</h1>
+
+<div class="card">
+<b>Demo Mode:</b> Safely simulate access removal for users
+</div>
+
+<button onclick="loadData()">📂 Load Demo Data</button>
+<button onclick="runRemoval()">🚀 Run Removal</button>
+<button onclick="exportReport()">📄 Export Report</button>
+
+<p id="status"></p>
+
+<hr>
+
+<h2>Results</h2>
+<div id="results"></div>
+
+<script>
+
+let users = [];
+let report = [];
+
+function loadData(){
+  users = [
+    { name:"Jane Doe", email:"jane@example.com", hasFE:true },
+    { name:"John Smith", email:"john@example.com", hasFE:false },
+    { name:"Alex Carter", email:"alex@example.com", hasFE:true }
+  ];
+
+  document.getElementById("status").innerText = "✅ Demo data loaded";
+}
+
+function runRemoval(){
+
+  let html = "";
+  report = [];
+
+  users.forEach(user => {
+
+    html += `<div class="card"><b>${user.name}</b><br>`;
+
+    if(!user.hasFE){
+      html += `<div class="skip">⏭ No FE Access — Skipped</div>`;
+      
+      report.push({
+        name:user.name,
+        status:"No FE Access",
+        action:"Skipped",
+        result:"No Action Required"
+      });
+    }
+    else{
+      html += `<div class="success">✅ FE Access Removed</div>`;
+
+      report.push({
+        name:user.name,
+        status:"Had FE Access",
+        action:"Removed",
+        result:"Success"
+      });
+    }
+
+    html += `</div>`;
+  });
+
+  document.getElementById("results").innerHTML = html;
+}
+
+function exportReport(){
+
+  if(!report.length){
+    alert("Run the demo first!");
+    return;
+  }
+
+  let csv = "Name,Status,Action,Result\n";
+
+  report.forEach(r=>{
+    csv += `${r.name},${r.status},${r.action},${r.result}\n`;
+  });
+
+  let blob = new Blob([csv], { type: "text/csv" });
+  let link = document.createElement("a");
+
+  link.href = URL.createObjectURL(blob);
+  link.download = "fe_report.csv";
+  link.click();
+}
+
+</script>
+
+</body>
+</html>
