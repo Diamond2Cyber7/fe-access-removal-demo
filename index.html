@@ -1,3 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>FE Access Removal Demo 🚀</title>
+
+<style>
+body {
+  background:#0f172a;
+  color:white;
+  font-family:Arial;
+  margin:20px;
+}
+
+.header {
+  font-size:26px;
+  font-weight:bold;
+}
+
+.card {
+  background:#1e293b;
+  padding:15px;
+  margin:15px 0;
+  border-radius:8px;
+}
+
+button {
+  margin:5px;
+  padding:10px 15px;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+.primary { background:#3b82f6; color:white; }
+.success { color:#22c55e; }
+.skip { color:#facc15; }
+
+.progress-container {
+  width:100%;
+  background:#334155;
+  border-radius:8px;
+  margin-top:10px;
+}
+
+.progress-bar {
+  width:0%;
+  height:20px;
+  background: linear-gradient(90deg,#22c55e,#4ade80);
+  border-radius:8px;
+  text-align:center;
+  font-size:12px;
+  font-weight:bold;
+  color:black;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">🔐 FE Access Removal Dashboard</div>
+
+<div class="card">
+<b>Environment:</b> Test Environment<br>
+<b>Status:</b> Demo Mode<br>
+</div>
+
+<button class="primary" onclick="loadData()">📂 Load Demo Data</button>
+<button class="primary" onclick="runRemoval()">🚀 Run Removal</button>
+<button onclick="exportReport()">📄 Export Report</button>
+
+<p id="status"></p>
+
+<div class="progress-container">
+  <div id="progressBar" class="progress-bar">0%</div>
+</div>
+
+<hr>
+
+<h2>Results</h2>
+<div id="results"></div>
+
 <script>
 
 let users = [];
@@ -13,38 +94,36 @@ function loadData(){
   document.getElementById("status").innerText = "✅ Demo data loaded";
 }
 
-// ✅ Improved progress animation
 function simulateProgress(callback){
 
   let progress = 0;
   let bar = document.getElementById("progressBar");
 
-  // Reset bar visually
   bar.style.width = "0%";
   bar.innerText = "0%";
 
   document.getElementById("status").innerText = "⏳ Processing users...";
 
-  let interval = setInterval(() => {
+  let interval = setInterval(function(){
 
-    progress += 5; // smoother increment
+    progress += 5;
     bar.style.width = progress + "%";
     bar.innerText = progress + "%";
 
     if(progress >= 100){
       clearInterval(interval);
 
-      setTimeout(() => {  // ✅ small delay so user sees 100%
+      setTimeout(function(){
         callback();
       }, 300);
     }
 
-  }, 120); // ✅ smoother animation speed
+  }, 120);
 }
 
 function runRemoval(){
 
-  if(!users.length){
+  if(users.length === 0){
     alert("Load data first!");
     return;
   }
@@ -52,18 +131,16 @@ function runRemoval(){
   document.getElementById("results").innerHTML = "";
   report = [];
 
-  simulateProgress(() => {
+  simulateProgress(function(){
 
     let html = "";
 
-    users.forEach(user => {
+    users.forEach(function(user){
 
-      html += `<div class="card"><b>${user.name}</b><br>`;
+      html += '<div class="card"><b>' + user.name + '</b><br>';
 
       if(!user.hasFE){
-
-        html += `<span class="status-badge badge-skip">No FE Access</span>`;
-        html += `<div class="skip">⏭ Skipped</div>`;
+        html += '<div class="skip">⏭ No FE Access — Skipped</div>';
 
         report.push({
           name:user.name,
@@ -73,9 +150,7 @@ function runRemoval(){
         });
 
       } else {
-
-        html += `<span class="status-badge badge-success">Had Access</span>`;
-        html += `<div class="success">✅ Access Removed</div>`;
+        html += '<div class="success">✅ Access Removed</div>';
 
         report.push({
           name:user.name,
@@ -85,26 +160,26 @@ function runRemoval(){
         });
       }
 
-      html += `</div>`;
+      html += '</div>';
     });
 
     document.getElementById("results").innerHTML = html;
-    document.getElementById("status").innerText = "✅ Removal process completed";
+    document.getElementById("status").innerText = "✅ Removal completed";
 
   });
 }
 
 function exportReport(){
 
-  if(!report.length){
+  if(report.length === 0){
     alert("Run the demo first!");
     return;
   }
 
   let csv = "Name,Status,Action,Result\n";
 
-  report.forEach(r=>{
-    csv += `${r.name},${r.status},${r.action},${r.result}\n`;
+  report.forEach(function(r){
+    csv += r.name + "," + r.status + "," + r.action + "," + r.result + "\n";
   });
 
   let blob = new Blob([csv], { type: "text/csv" });
@@ -116,3 +191,6 @@ function exportReport(){
 }
 
 </script>
+
+</body>
+</html>
