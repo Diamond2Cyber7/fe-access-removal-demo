@@ -61,7 +61,7 @@ button {
 
 <div class="card">
 <b>Environment:</b> Test Environment<br>
-<b>Status:</b> Demo Mode<br>
+<b>Status:</b> Demo Mode
 </div>
 
 <button class="primary" onclick="loadData()">📂 Load Demo Data</button>
@@ -86,9 +86,9 @@ let report = [];
 
 function loadData(){
   users = [
-    { name:"Jane Doe", email:"jane@example.com", hasFE:true },
-    { name:"John Smith", email:"john@example.com", hasFE:false },
-    { name:"Alex Carter", email:"alex@example.com", hasFE:true }
+    { name:"Jane Doe", hasFE:true },
+    { name:"John Smith", hasFE:false },
+    { name:"Alex Carter", hasFE:true }
   ];
 
   document.getElementById("status").innerText = "✅ Demo data loaded";
